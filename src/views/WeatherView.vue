@@ -10,8 +10,6 @@ const iframeSize = reactive({
 </script>
 
 <template>
-  <h1>Météo</h1>
-
   <iframe
     src="https://www.lameteoagricole.net/"
     :width="iframeSize.width"
