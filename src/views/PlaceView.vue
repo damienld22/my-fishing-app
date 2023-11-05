@@ -14,6 +14,10 @@ const place = getPlaceById(route.params.id as string)
   <p class="area">{{ place?.area }} ha</p>
 
   <PlaceMap v-if="place" :src="place?.map" :spots="place?.spots || []" />
+
+  <p v-if="place?.description" class="description">
+    {{ place?.description }}
+  </p>
 </template>
 
 <style scoped>
@@ -24,5 +28,9 @@ const place = getPlaceById(route.params.id as string)
 
 .area {
   font-style: italic;
+}
+
+.description {
+  margin-top: 20px;
 }
 </style>
