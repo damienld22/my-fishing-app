@@ -21,6 +21,9 @@ function getTitleFromRouteName(name?: string): string {
   switch (name) {
     case 'weather':
       return 'Météo'
+    case 'places':
+    case 'place':
+      return 'Spots'
     case 'home':
     default:
       return defaultTitle
