@@ -1,3 +1,8 @@
+import { generateId } from '@/utils'
+import { ref } from 'vue'
+
+const STORAGE_KEY = 'myfishingapp-places'
+
 export type PlaceSpot = {
   x: number
   y: number
@@ -5,7 +10,7 @@ export type PlaceSpot = {
 }
 
 export type Place = {
-  id: number
+  id: string
   name: string
   description?: string
   area: number
@@ -13,38 +18,31 @@ export type Place = {
   spots: PlaceSpot[]
 }
 
-const places: Place[] = [
-  {
-    id: 1,
-    name: 'Étang du Petit Coutance',
-    description: 'Graciation toutes espèces. Pêche en float-tube',
-    area: 3.9,
-    map: 'bad',
-    spots: []
-  },
-  {
-    id: 2,
-    name: 'Étang du Grand Coutance',
-    area: 8.6,
-    map: 'bad',
-    spots: []
-  },
-  {
-    id: 3,
-    name: 'Étang du Colombier',
-    area: 5.7,
-    map: 'etang_colombier',
-    spots: [
-      { x: 30, y: 20, description: 'Au pif' },
-      { x: 70, y: 50, description: 'Au pif 2' }
-    ]
-  }
-]
+export type PlaceCreation = Omit<Place, 'id'>
 
-function getPlaceById(id: number) {
-  return places.find((elt) => elt.id === id)
+function getPlacesFromStorage() {
+  const storageValue = localStorage.getItem(STORAGE_KEY)
+  return storageValue ? JSON.parse(storageValue) : []
 }
 
-export default function usePlaces() {
-  return { places, getPlaceById }
+export function usePlaces() {
+  const places = ref<Place[]>(getPlacesFromStorage())
+
+  const addPlace = (place: PlaceCreation) => {
+    const id = generateId()
+    const placeToCreate: Place = { ...place, id }
+    places.value.push(placeToCreate)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(places.value))
+  }
+
+  const getPlaceById = (id: string) => {
+    return places.value.find((elt) => elt.id === id)
+  }
+
+  const deletePlaceById = (id: string) => {
+    places.value = places.value.filter((elt) => elt.id !== id)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(places.value))
+  }
+
+  return { places, getPlaceById, addPlace, deletePlaceById }
 }

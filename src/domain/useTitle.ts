@@ -23,6 +23,7 @@ function getTitleFromRouteName(name?: string): string {
       return 'Météo'
     case 'places':
     case 'place':
+    case 'create-place':
       return 'Spots'
     case 'home':
     default:

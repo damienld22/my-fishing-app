@@ -23,6 +23,11 @@ const router = createRouter({
       path: '/places/:id',
       name: 'place',
       component: () => import('../views/PlaceView.vue')
+    },
+    {
+      path: '/place-creation',
+      name: 'create-place',
+      component: () => import('../views/AddPlaceView.vue')
     }
   ]
 })

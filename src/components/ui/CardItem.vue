@@ -1,11 +1,20 @@
 <script setup lang="ts">
+import TrashIcon from '@/assets/icons/TrashIcon.vue'
 const props = defineProps<{ title: string; description?: string }>()
-const emit = defineEmits(['click'])
+const emit = defineEmits(['click', 'delete'])
+
+const onDelete = (evt: Event) => {
+  evt.stopPropagation()
+  emit('delete')
+}
 </script>
 
 <template>
   <div class="container" @click="emit('click')">
-    <p class="title">{{ props.title }}</p>
+    <div class="titleContainer">
+      <p class="title">{{ props.title }}</p>
+      <TrashIcon class="trashIcon" @click="onDelete" />
+    </div>
 
     <div class="description">
       <p v-if="props.description">{{ props.description }}</p>
@@ -21,6 +30,13 @@ const emit = defineEmits(['click'])
   padding: 10px;
 }
 
+.titleContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .title {
   font-size: 120%;
   font-weight: bold;
@@ -28,5 +44,10 @@ const emit = defineEmits(['click'])
 
 .description {
   font-size: 80%;
+}
+
+.trashIcon {
+  width: 20px;
+  height: 20px;
 }
 </style>
