@@ -56,8 +56,10 @@ const handleUpdateDescription = (updatedValue: string) => {
         <button @click="validateAddingSpot">Valider</button>
         <button @click="onAddingSpot = null">Annuler</button>
       </div>
-      <label for="descriptionSpot">Description du spot</label>
-      <input id="descriptionSpot" v-model="onAddingSpot.description" />
+      <div class="spotDescription">
+        <label for="descriptionSpot">Description du spot</label>
+        <input id="descriptionSpot" v-model="onAddingSpot.description" />
+      </div>
     </div>
   </div>
 </template>
@@ -79,5 +81,10 @@ const handleUpdateDescription = (updatedValue: string) => {
 .description {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+.spotDescription {
+  display: flex;
+  flex-direction: column;
 }
 </style>

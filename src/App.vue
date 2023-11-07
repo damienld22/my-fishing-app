@@ -6,18 +6,24 @@ const title = useTitle()
 </script>
 
 <template>
-  <div class="title">
-    <RouterLink to="/">
-      <img alt="logo" width="50" height="50" src="./assets/logo.png" />
-    </RouterLink>
+  <div class="container">
+    <div class="title">
+      <RouterLink to="/">
+        <img alt="logo" width="50" height="50" src="./assets/logo.png" />
+      </RouterLink>
 
-    <h1>{{ title }}</h1>
+      <h1>{{ title }}</h1>
+    </div>
+
+    <RouterView />
   </div>
-
-  <RouterView />
 </template>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+}
 .title {
   display: flex;
   flex-direction: row;
