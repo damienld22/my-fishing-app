@@ -2,4 +2,5 @@
 
 ## To do
 
-- [ ] Assets (logo)
+- [ ] PWA
+- [ ] Zoom sur carte
