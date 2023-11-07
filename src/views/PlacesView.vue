@@ -8,7 +8,7 @@ const router = useRouter()
 </script>
 
 <template>
-  <button @click="router.push('/place-creation')">Ajouter un spot</button>
+  <button @click="router.push('/place-creation')">Ajouter une zone de pêche</button>
 
   <CardItem
     v-for="place of places"

@@ -2,10 +2,11 @@
 import { useRoute } from 'vue-router'
 import { usePlaces, type PlaceSpot } from '@/domain/usePlaces'
 import PlaceMap from '@/components/smart/PlaceMap.vue'
+import EditableText from '@/components/ui/EditableText.vue'
 import { computed, ref } from 'vue'
 
 const route = useRoute()
-const { getPlaceById, addSpot } = usePlaces()
+const { getPlaceById, addSpot, editPlace } = usePlaces()
 const place = computed(() => getPlaceById(route.params.id as string))
 const onAddingSpot = ref<PlaceSpot | null>(null)
 
@@ -27,11 +28,19 @@ const handleUpdateSpot = (position: { x: number; y: number }) => {
     onAddingSpot.value.y = position.y
   }
 }
+
+const handleUpdateDescription = (updatedValue: string) => {
+  editPlace(place.value?.id!, { description: updatedValue })
+}
 </script>
 
 <template>
   <p class="title">{{ place?.name }}</p>
   <p class="area">{{ place?.area }} ha</p>
+
+  <p v-if="place?.description" class="description">
+    <EditableText :text="place.description" @on-update="handleUpdateDescription" />
+  </p>
 
   <PlaceMap
     v-if="place"
@@ -51,10 +60,6 @@ const handleUpdateSpot = (position: { x: number; y: number }) => {
       <input id="descriptionSpot" v-model="onAddingSpot.description" />
     </div>
   </div>
-
-  <p v-if="place?.description" class="description">
-    {{ place?.description }}
-  </p>
 </template>
 
 <style scoped>
@@ -72,6 +77,7 @@ const handleUpdateSpot = (position: { x: number; y: number }) => {
   margin-bottom: 20px;
 }
 .description {
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 </style>

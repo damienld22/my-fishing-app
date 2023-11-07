@@ -67,5 +67,34 @@ export function usePlaces() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(places.value))
   }
 
-  return { places, getPlaceById, addPlace, deletePlaceById, addSpot, deleteSpot }
+  const editPlace = (placeId: string, update: Partial<Place>) => {
+    places.value = places.value.map((place) => {
+      return place.id === placeId ? { ...place, ...update } : place
+    })
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(places.value))
+  }
+
+  const editSpotDescription = (placeId: string, newSpot: PlaceSpot) => {
+    const updatingPlaces = [...places.value]
+    const placeIndex = updatingPlaces.findIndex((elt) => elt.id === placeId)
+    if (placeIndex > -1) {
+      updatingPlaces[placeIndex].spots = updatingPlaces[placeIndex].spots.map((spot) => {
+        return spot.x === newSpot.x && spot.y === newSpot.y ? newSpot : spot
+      })
+    }
+
+    places.value = updatingPlaces
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(places.value))
+  }
+
+  return {
+    places,
+    getPlaceById,
+    addPlace,
+    deletePlaceById,
+    addSpot,
+    deleteSpot,
+    editPlace,
+    editSpotDescription
+  }
 }

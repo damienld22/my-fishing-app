@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { usePlaces, type PlaceSpot, type Place } from '@/domain/usePlaces'
 import Marker from '@/components/ui/Marker.vue'
+import EditableText from '@/components/ui/EditableText.vue'
 import { ref } from 'vue'
 
 const props = defineProps<{ place: Place; draftSpot: PlaceSpot | null }>()
 const emit = defineEmits(['clickNewSpotPosition'])
 const computedStyleMap = { 'background-image': `url(${props.place.map})` }
 const selectedSpot = ref<PlaceSpot | null>(null)
-const { deleteSpot } = usePlaces()
+const { deleteSpot, editSpotDescription } = usePlaces()
 
 const handleDeleteSpot = () => {
   if (selectedSpot.value) {
@@ -29,6 +30,13 @@ const onClickMap = (evt: MouseEvent) => {
     const xPercentage = (x / width) * 100
     const yPercentage = (y / height) * 100
     emit('clickNewSpotPosition', { x: xPercentage, y: yPercentage })
+  }
+}
+
+const handleUpdateSpotDescription = (newDescription: string) => {
+  if (selectedSpot.value) {
+    editSpotDescription(props.place.id, { ...selectedSpot.value, description: newDescription })
+    selectedSpot.value.description = newDescription
   }
 }
 </script>
@@ -55,10 +63,10 @@ const onClickMap = (evt: MouseEvent) => {
 
   <div v-if="selectedSpot">
     <div class="titleSpot">
-      <p class="spotDescriptionTitle">Description du spot :</p>
+      <p class="spotDescriptionTitle">Spot</p>
       <button @click="handleDeleteSpot">Supprimer Spot</button>
     </div>
-    <p>{{ selectedSpot?.description }}</p>
+    <EditableText :text="selectedSpot.description" @on-update="handleUpdateSpotDescription" />
   </div>
 </template>
 
