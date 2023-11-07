@@ -2,5 +2,4 @@
 
 ## To do
 
-- [ ] PWA
 - [ ] Zoom sur carte

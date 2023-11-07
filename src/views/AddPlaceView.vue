@@ -45,7 +45,7 @@ async function handleUploadMap(evt: Event) {
 
   <label for="map">Carte</label>
   <input type="file" id="map" @change="handleUploadMap" />
-  <img class="preview" v-if="spotCreation.map" :src="spotCreation.map" :height="150" />
+  <img alt="map" class="preview" v-if="spotCreation.map" :src="spotCreation.map" :height="150" />
 
   <button @click="router.back()">Annuler</button>
   <button @click="createPlace">Valider</button>

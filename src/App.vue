@@ -8,7 +8,7 @@ const title = useTitle()
 <template>
   <div class="title">
     <RouterLink to="/">
-      <img width="50" height="50" src="./assets/logo.png" />
+      <img alt="logo" width="50" height="50" src="./assets/logo.png" />
     </RouterLink>
 
     <h1>{{ title }}</h1>
