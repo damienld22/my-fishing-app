@@ -1,27 +1,63 @@
 <script setup lang="ts">
-import type { PlaceSpot } from '@/domain/usePlaces'
+import { usePlaces, type PlaceSpot, type Place } from '@/domain/usePlaces'
 import Marker from '@/components/ui/Marker.vue'
 import { ref } from 'vue'
 
-const props = defineProps<{ src: string; spots: PlaceSpot[] }>()
-const computedStyleMap = { 'background-image': `url(${props.src})` }
+const props = defineProps<{ place: Place; draftSpot: PlaceSpot | null }>()
+const emit = defineEmits(['clickNewSpotPosition'])
+const computedStyleMap = { 'background-image': `url(${props.place.map})` }
 const selectedSpot = ref<PlaceSpot | null>(null)
+const { deleteSpot } = usePlaces()
+
+const handleDeleteSpot = () => {
+  if (selectedSpot.value) {
+    deleteSpot(props.place.id, selectedSpot.value)
+    selectedSpot.value = null
+  }
+}
+
+const onClickMap = (evt: MouseEvent) => {
+  evt.preventDefault()
+
+  if (props.draftSpot) {
+    const target = evt.target as HTMLInputElement
+    const rect = target.getBoundingClientRect()
+    const width = rect.right - rect.left
+    const height = rect.bottom - rect.top
+    const x = evt.clientX - rect.left
+    const y = evt.clientY - rect.top
+    const xPercentage = (x / width) * 100
+    const yPercentage = (y / height) * 100
+    emit('clickNewSpotPosition', { x: xPercentage, y: yPercentage })
+  }
+}
 </script>
 
 <template>
-  <div class="map" :style="computedStyleMap">
+  <div class="map" :style="computedStyleMap" @click="onClickMap">
     <Marker
-      :key="i"
-      v-for="(spot, i) of props.spots"
+      :key="`${spot.x}-${spot.y}`"
+      v-for="(spot, i) of props.place.spots"
       :value="i + 1"
       :x="spot.x"
       :y="spot.y"
       @click="selectedSpot = spot"
     />
+
+    <Marker
+      v-if="draftSpot"
+      :key="`${draftSpot.x}-${draftSpot.y}`"
+      value="X"
+      :x="draftSpot.x"
+      :y="draftSpot.y"
+    />
   </div>
 
-  <div v-show="selectedSpot">
-    <p class="spotDescriptionTitle">Description du spot :</p>
+  <div v-if="selectedSpot">
+    <div class="titleSpot">
+      <p class="spotDescriptionTitle">Description du spot :</p>
+      <button @click="handleDeleteSpot">Supprimer Spot</button>
+    </div>
     <p>{{ selectedSpot?.description }}</p>
   </div>
 </template>
@@ -32,6 +68,14 @@ const selectedSpot = ref<PlaceSpot | null>(null)
   height: 50vh;
   background-size: cover;
   background-position: center;
+  position: relative;
+}
+
+.titleSpot {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
 }
 
 .spotDescriptionTitle {

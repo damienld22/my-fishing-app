@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{ value: number; x: number; y: number }>()
+const props = defineProps<{ value: number | string; x: number; y: number }>()
 const computedStyle = { left: `${props.x}%`, top: `${props.y}%` }
 </script>
 
@@ -18,7 +18,7 @@ const computedStyle = { left: `${props.x}%`, top: `${props.y}%` }
   color: white;
   font-weight: bold;
   text-align: center;
-  position: relative;
+  position: absolute;
   transform: translate(-50%, -50%);
 }
 </style>

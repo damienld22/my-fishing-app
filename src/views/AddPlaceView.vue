@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { type PlaceCreation, usePlaces } from '@/domain/usePlaces'
+import { usePlaces, type PlaceCreation } from '@/domain/usePlaces'
 import { toBase64 } from '@/utils'
 import { useRouter } from 'vue-router'
 
