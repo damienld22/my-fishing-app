@@ -6,9 +6,13 @@ jobs:
     name: Build Vue
     steps:
       - uses: actions/checkout@v2
-      - id: Build-Vue
-        uses: xRealNeon/VuePagesAction@1.0.1
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          username: 'damienld22'
-          reponame: 'my-fishing-app'
-          token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: "20"
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build Vue app
+        run: cd packages/mobile-app && pnpm run build

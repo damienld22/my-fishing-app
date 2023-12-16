@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePlaces, type PlaceSpot, type Place } from '@/domain/usePlaces'
-import Marker from '@/components/ui/Marker.vue'
+import Marker from '@/components/ui/MarkerElement.vue'
 import EditableText from '@/components/ui/EditableText.vue'
 import { ref } from 'vue'
 
@@ -74,8 +74,9 @@ const handleUpdateSpotDescription = (newDescription: string) => {
 .map {
   width: auto;
   height: 50vh;
-  background-size: cover;
+  background-size: 100% auto;
   background-position: center;
+  background-repeat: no-repeat;
   position: relative;
 }
 
