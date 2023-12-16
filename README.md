@@ -3,6 +3,7 @@
 ## To do
 
 - [ ] Mettre en monorepo
+- [ ] Corriger les erreurs TS
 - [ ] Initialiser le back
 - [ ] Zoom sur carte
 - [ ] Améliorer taille carte
